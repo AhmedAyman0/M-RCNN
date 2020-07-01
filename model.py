@@ -85,9 +85,10 @@ class PotholeConfig(Config):
     # Number of classes (background + pothole)
     NUM_CLASSES = 1 + 1
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = int(listdir("pothole/images").__len__() * .7)
-    GPU_COUNT = 1
-    IMAGES_PER_GPU = 1
+    STEPS_PER_EPOCH = int(listdir("pothole/images").__len__() * .7)-1
+
+    # Skip detections with < 90% confidence
+    DETECTION_MIN_CONFIDENCE = 0.9
 
 # prepare config
 config = PotholeConfig()
@@ -104,7 +105,7 @@ test_set.prepare()
 print('Test: %d' % len(test_set.image_ids))
 # train set
 # define image id
-image_id = 77
+image_id = 0
 # load the image
 image = train_set.load_image(image_id)
 # load the masks and the class ids
@@ -117,4 +118,4 @@ model = MaskRCNN(mode='training', model_dir='./', config=config)
 # load weights (mscoco) and exclude the output layers
 model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 # train weights (output layers or 'heads')
-model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=5, layers='heads')
+model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=30, layers='heads')
