@@ -85,7 +85,7 @@ class PotholeConfig(Config):
     # Number of classes (background + pothole)
     NUM_CLASSES = 1 + 1
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 131
+    STEPS_PER_EPOCH = int(listdir("pothole/images").__len__() * .7)
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
 
