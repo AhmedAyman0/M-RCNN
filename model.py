@@ -84,9 +84,10 @@ class PotholeConfig(Config):
     NAME = "pothole_cfg"
     # Number of classes (background + pothole)
     NUM_CLASSES = 1 + 1
+    USE_MINI_MASK = False # try setting to False
+    MINI_MASK_SHAPE = (56, 56) # try increasing this
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = int(listdir("pothole/images").__len__() * .7)-1
-
+    STEPS_PER_EPOCH = 100
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.9
 
